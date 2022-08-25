@@ -59,6 +59,55 @@ class _HomePageStateState extends State<HomePage> {
      case "play":
        _playMusic(_selectedRadio.url);
        break;
+
+     case "stop":
+       _audioPlayer.stop();
+       break;
+
+     case "play_channel":
+       final id = response["id"];
+       _audioPlayer.pause();
+       MyRadio newRadio;
+         newRadio = radios.firstWhere((element) => element.id == id);
+         radios.remove(newRadio);
+         radios.insert(0, newRadio);
+       _playMusic(newRadio.url);
+       break;
+
+     case "next":
+       final index = _selectedRadio.id;
+       MyRadio newRadio;
+       if(index + 1 > radios.length){
+         newRadio = radios.firstWhere((element) => element.id == 1);
+         radios.remove(newRadio);
+         radios.insert(0, newRadio);
+       }
+       else
+         {
+           newRadio = radios.firstWhere((element) => element.id == index + 1);
+           radios.remove(newRadio);
+           radios.insert(0, newRadio);
+         }
+         _playMusic(newRadio.url);
+       break;
+
+     case "prev":
+       final index = _selectedRadio.id;
+       MyRadio newRadio;
+       if(index - 1 <= 0){
+         newRadio = radios.firstWhere((element) => element.id == 1);
+         radios.remove(newRadio);
+         radios.insert(0, newRadio);
+       }
+       else
+       {
+         newRadio = radios.firstWhere((element) => element.id == index - 1);
+         radios.remove(newRadio);
+         radios.insert(0, newRadio);
+       }
+       _playMusic(newRadio.url);
+       break;
+
      default:
        print("Command was ${response["command"]}");
        break;
