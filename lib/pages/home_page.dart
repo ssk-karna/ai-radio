@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:velocity_x/velocity_x.dart';
-
+import 'package:alan_voice/alan_voice.dart';
 import '../model/radio.dart';
 
 class HomePage extends StatefulWidget {
@@ -23,6 +23,7 @@ class _HomePageStateState extends State<HomePage> {
  @override
   void initState() {
     // TODO: implement initState
+   setupAlan();
     fetchRadios();
 
     _audioPlayer.onPlayerStateChanged.listen((event) {
@@ -41,10 +42,28 @@ class _HomePageStateState extends State<HomePage> {
   Future<List<MyRadio>> fetchRadios() async {
      final radioJson = await rootBundle.loadString("assets/radio.json");
      radios = MyRadioList.fromJson(radioJson).radios;
+     _selectedRadio = radios[0];
+     _selectedColor = Color(int.parse(_selectedRadio.color));
      setState(() {});
      return radios;
   }
 
+   setupAlan(){
+     AlanVoice.addButton(
+         "206fc84679f841f09ced24f73343181c2e956eca572e1d8b807a3e2338fdd0dc/stage",
+       buttonAlign:AlanVoice.BUTTON_ALIGN_LEFT);
+     AlanVoice.callbacks.add((command) => _handleCommand(command.data));
+}
+   _handleCommand(Map<String,dynamic> response){
+   switch (response["command"]){
+     case "play":
+       _playMusic(_selectedRadio.url);
+       break;
+     default:
+       print("Command was ${response["command"]}");
+       break;
+   }
+   }
   _playMusic(String url){
    _audioPlayer.play(UrlSource(url));
    _selectedRadio = radios.firstWhere((element) => element.url == url);
