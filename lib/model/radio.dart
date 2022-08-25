@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 
 class MyRadioList {
-  final List<MyRadio>? radios;
+  final List<MyRadio> radios;
   MyRadioList({
-    this.radios,
+    required this.radios,
   });
 
   MyRadioList copyWith({
@@ -18,7 +18,7 @@ class MyRadioList {
 
   Map<String, dynamic> toMap() {
     return {
-      'radios': radios?.map((x) => x?.toMap())?.toList(),
+      'radios': radios.map((x) => x.toMap()).toList(),
     };
   }
 
@@ -48,29 +48,29 @@ class MyRadioList {
 }
 
 class MyRadio {
-  final int?  id;
-  final int?  order;
-  final String?  name;
-  final String? tagline;
-  final String? color;
-  final String? desc;
-  final String? url;
-  final String? category;
-  final String? icon;
-  final String? image;
-  final String? lang;
+  final int  id;
+  final int  order;
+  final String  name;
+  final String tagline;
+  final String color;
+  final String desc;
+  final String url;
+  final String category;
+  final String icon;
+  final String image;
+  final String lang;
   MyRadio({
-    this.id,
-    this.order,
-    this.name,
-    this.tagline,
-    this.color,
-    this.desc,
-    this.url,
-    this.category,
-    this.icon,
-    this.image,
-    this.lang,
+    this.id = 0,
+    this.order = 0,
+    this.name = "",
+    this.tagline = "",
+    this.color = "",
+    this.desc = "",
+    this.url = "",
+    this.category = "",
+    this.icon = "",
+    this.image = "",
+    this.lang = "",
   });
 
   MyRadio copyWith({
