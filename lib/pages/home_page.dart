@@ -124,6 +124,27 @@ class _HomePageStateState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Drawer(
+        child: Container(
+          color: _selectedColor,
+          child: [
+            100.heightBox,
+            "All Channels".text.xl.white.semiBold.make().p16(),
+            20.heightBox,
+            ListView(
+              padding: Vx.m0,
+              shrinkWrap: true,
+              children: radios.map((e) => ListTile(
+                leading: CircleAvatar(
+                  backgroundImage: NetworkImage(e.icon),
+                ),
+                title: "${e.name} FM".text.white.make(),
+                subtitle: e.tagline.text.white.make(),
+              )).toList(),
+            ).expand()
+          ].vStack(),
+        ),
+      ),
       body: Stack(
         fit: StackFit.expand,
         clipBehavior: Clip.antiAlias,
