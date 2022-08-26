@@ -15,8 +15,20 @@ class HomePage extends StatefulWidget {
 class _HomePageStateState extends State<HomePage> {
    List<MyRadio> radios = <MyRadio>[];
    late MyRadio _selectedRadio;
-    Color _selectedColor = Color(int.parse("0xffB2DFDB"));
+   Color _selectedColor = Color(int.parse("0xffB2DFDB"));
    bool _isPlaying = false;
+
+   final sugg = [
+     "Play",
+     "Stop",
+     "Play rock music",
+     "Play 107 FM",
+     "Play next",
+     "Play 104 FM",
+     "Pause",
+     "Play previous",
+     "Play pop music"
+   ];
 
    final AudioPlayer _audioPlayer = AudioPlayer();
 
@@ -159,7 +171,7 @@ class _HomePageStateState extends State<HomePage> {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,),
           ).make(),
-          AppBar(
+          [AppBar(
             title: "AI Radio".text.xl4.bold.white.make().shimmer(
               primaryColor: Vx.purple300,
               secondaryColor: Colors.white
@@ -168,6 +180,21 @@ class _HomePageStateState extends State<HomePage> {
             elevation: 0.0,
             centerTitle: true,
           ).h(100.0).p16(),
+            "Start with - Hey Alan".text.italic.semiBold.white.make(),
+            10.heightBox,
+            VxSwiper.builder(itemCount: sugg.length,
+              height: 50.0,
+              viewportFraction: 0.35,
+              autoPlay: true,
+              autoPlayAnimationDuration: 3.seconds,
+              autoPlayCurve: Curves.linear,
+              enableInfiniteScroll: true,
+              itemBuilder: ( context,  index) {
+              final s = sugg[index];
+              return Chip(label: s.text.make(),
+                backgroundColor: Vx.randomColor);
+            }, )
+          ].vStack(alignment: MainAxisAlignment.start),
 
           FutureBuilder(
             future: fetchRadios(),
